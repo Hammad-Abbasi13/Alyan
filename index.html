@@ -1,0 +1,2737 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#08090f">
+
+<title>Birthday Surprise ✨</title>
+
+<style>
+:root {
+  --bg:#08090f;
+  --bg2:#10121b;
+  --text:#f9f7f5;
+  --muted:#a9adb8;
+  --pink:#ff8eab;
+  --purple:#a993ff;
+  --gold:#ffd166;
+  --cyan:#75dfd0;
+  --glass:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.13);
+  --shadow:0 25px 80px rgba(0,0,0,.42);
+  --radius:28px;
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body {
+  width:100%;
+  min-height:100%;
+  background:var(--bg);
+}
+
+body {
+  overflow:hidden;
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height:1.55;
+}
+
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index:100;
+}
+
+.background {
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-2;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(255,142,171,.13),transparent 30%),
+    radial-gradient(circle at 85% 25%,rgba(169,147,255,.12),transparent 30%),
+    radial-gradient(circle at 50% 100%,rgba(255,209,102,.07),transparent 35%),
+    var(--bg);
+}
+
+.orb {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.28;
+  animation:floating 12s ease-in-out infinite alternate;
+}
+
+.orb.one {
+  width:220px;
+  height:220px;
+  background:var(--pink);
+  top:-80px;
+  left:-90px;
+}
+
+.orb.two {
+  width:230px;
+  height:230px;
+  background:var(--purple);
+  top:42%;
+  right:-120px;
+  animation-delay:-5s;
+}
+
+.orb.three {
+  width:180px;
+  height:180px;
+  background:var(--gold);
+  bottom:-80px;
+  left:38%;
+  opacity:.12;
+  animation-delay:-8s;
+}
+
+@keyframes floating {
+  from {
+    transform:translate3d(0,0,0) scale(1);
+  }
+
+  to {
+    transform:translate3d(35px,-30px,0) scale(1.08);
+  }
+}
+
+.app {
+  width:100%;
+  height:100svh;
+  position:relative;
+}
+
+.topbar {
+  position:fixed;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(720px,calc(100% - 22px));
+  z-index:50;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:17px;
+  background:rgba(8,9,15,.63);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 12px 40px rgba(0,0,0,.2);
+}
+
+.brand {
+  font-size:.68rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:#c6cad3;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.music {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+  color:white;
+  font-size:.74rem;
+  cursor:pointer;
+}
+
+.music-dot {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--pink);
+  box-shadow:0 0 12px var(--pink);
+}
+
+.music.playing .music-dot {
+  animation:musicPulse .7s infinite alternate;
+}
+
+@keyframes musicPulse {
+  to {
+    transform:scale(1.65);
+    opacity:.55;
+  }
+}
+
+.progress {
+  position:fixed;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:40;
+  display:flex;
+  gap:6px;
+  padding:4px 8px;
+  border-radius:30px;
+  background:rgba(0,0,0,.18);
+  backdrop-filter:blur(8px);
+}
+
+.progress-dot {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:rgba(255,255,255,.2);
+  transition:.35s ease;
+}
+
+.progress-dot.active {
+  width:22px;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  box-shadow:0 0 13px rgba(255,142,171,.25);
+}
+
+#screens {
+  width:100%;
+  height:100%;
+}
+
+.screen {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100svh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:105px 18px 85px;
+  opacity:0;
+  visibility:hidden;
+  transform:scale(.97) translateY(12px);
+  transition:
+    opacity .5s ease,
+    transform .5s ease,
+    visibility .5s;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
+}
+
+.screen::-webkit-scrollbar {
+  display:none;
+}
+
+.screen.active {
+  opacity:1;
+  visibility:visible;
+  transform:scale(1) translateY(0);
+  z-index:10;
+}
+
+.screen-inner {
+  width:min(680px,100%);
+  margin:auto;
+  text-align:center;
+}
+
+.kicker {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 12px;
+  margin-bottom:17px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  background:rgba(255,255,255,.055);
+  color:#c9ccd5;
+  font-size:.68rem;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.kicker::before {
+  content:"✦";
+  color:var(--gold);
+}
+
+h1,
+h2 {
+  letter-spacing:-.065em;
+  line-height:.94;
+}
+
+h1 {
+  font-size:clamp(3rem,14vw,7rem);
+  font-weight:900;
+}
+
+h2 {
+  font-size:clamp(2.2rem,10vw,4.5rem);
+  font-weight:850;
+  margin-bottom:14px;
+}
+
+.gradient {
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #ffc0ce 42%,
+      #d1c6ff
+    );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.description {
+  color:var(--muted);
+  max-width:550px;
+  margin:0 auto 25px;
+  font-size:clamp(.96rem,3.7vw,1.14rem);
+}
+
+/* COUNTDOWN */
+
+.countdown-title {
+  font-size:clamp(2.5rem,11vw,5rem);
+  line-height:.94;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.countdown {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  max-width:520px;
+  margin:25px auto;
+}
+
+.count-box {
+  padding:16px 8px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:19px;
+  background:rgba(255,255,255,.055);
+  box-shadow:var(--shadow);
+}
+
+.count-number {
+  display:block;
+  font-size:clamp(1.6rem,7vw,3rem);
+  font-weight:850;
+  line-height:1;
+  color:white;
+}
+
+.count-label {
+  display:block;
+  margin-top:7px;
+  font-size:.62rem;
+  color:#777d88;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.count-note {
+  color:#777d88;
+  font-size:.74rem;
+  letter-spacing:.08em;
+}
+
+/* BUTTONS */
+
+.buttons {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:25px;
+}
+
+.btn {
+  min-height:49px;
+  padding:12px 18px;
+  border-radius:15px;
+  font-weight:780;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+  cursor:pointer;
+}
+
+.btn:hover {
+  transform:translateY(-2px);
+}
+
+.primary {
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:#130d14;
+  box-shadow:0 13px 33px rgba(255,142,171,.2);
+}
+
+.secondary {
+  color:white;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* HERO */
+
+.hero-photo {
+  width:min(73vw,300px);
+  aspect-ratio:1 / 1;
+  margin:25px auto;
+  padding:7px;
+  border-radius:34px;
+  background:linear-gradient(
+    135deg,
+    var(--pink),
+    var(--purple),
+    var(--gold)
+  );
+  box-shadow:0 28px 80px rgba(255,142,171,.13);
+  animation:heroFloat 5s ease-in-out infinite;
+}
+
+.hero-photo img {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  border-radius:28px;
+  background:#171923;
+}
+
+@keyframes heroFloat {
+  0%,100% {
+    transform:translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform:translateY(-9px) rotate(1deg);
+  }
+}
+
+/* CARDS */
+
+.card {
+  width:100%;
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--glass);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);
+}
+
+.card h3 {
+  font-size:1.45rem;
+  line-height:1.1;
+  margin-bottom:9px;
+  letter-spacing:-.03em;
+}
+
+.card p {
+  color:#b2b6c0;
+  font-size:.96rem;
+}
+
+/* STORY */
+
+.story-cards {
+  display:grid;
+  gap:12px;
+  margin-top:20px;
+}
+
+.story-card {
+  text-align:left;
+}
+
+.number {
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  margin-bottom:15px;
+  border-radius:11px;
+  background:rgba(255,255,255,.08);
+  color:var(--gold);
+  font-size:.75rem;
+  font-weight:900;
+}
+
+/* GALLERY */
+
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:20px;
+}
+
+.photo {
+  min-height:175px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;
+  background:#151821;
+  box-shadow:0 16px 45px rgba(0,0,0,.22);
+}
+
+.photo.tall {
+  grid-row:span 2;
+  min-height:359px;
+}
+
+.photo img {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  transition:transform .5s ease;
+}
+
+.photo:hover img {
+  transform:scale(1.05);
+}
+
+/* LETTER */
+
+.letter {
+  text-align:left;
+
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(255,209,102,.1),
+      transparent 35%
+    ),
+    rgba(255,255,255,.055);
+}
+
+.letter-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-bottom:15px;
+  margin-bottom:17px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.letter-label {
+  color:#7d828e;
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.17em;
+}
+
+.heart {
+  font-size:1.3rem;
+  animation:heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+  0%,30%,60%,100% {
+    transform:scale(1);
+  }
+
+  45% {
+    transform:scale(1.18);
+  }
+}
+
+.letter p {
+  color:#d6d7dc;
+  margin-bottom:15px;
+  font-size:clamp(.96rem,3.6vw,1.04rem);
+}
+
+.signature {
+  margin-top:20px;
+  color:var(--pink);
+  font-weight:800;
+}
+
+/* WISHES */
+
+.wishes {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:20px;
+}
+
+.wish {
+  text-align:left;
+  padding:17px;
+  min-height:135px;
+}
+
+.wish-icon {
+  font-size:1.55rem;
+  margin-bottom:8px;
+}
+
+.wish h4 {
+  font-size:.95rem;
+  margin-bottom:5px;
+}
+
+.wish p {
+  color:#9297a3;
+  font-size:.77rem;
+}
+
+/* FINAL */
+
+.final-card {
+  padding:34px 20px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255,142,171,.17),
+      transparent 40%
+    ),
+    rgba(255,255,255,.055);
+  box-shadow:var(--shadow);
+}
+
+.stars {
+  color:var(--gold);
+  letter-spacing:.3em;
+  margin-bottom:17px;
+}
+
+.final-name {
+  font-size:clamp(2.5rem,12vw,5rem);
+  line-height:.93;
+  font-weight:900;
+  letter-spacing:-.07em;
+  margin-bottom:15px;
+}
+
+.final-message {
+  color:var(--muted);
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* EFFECTS */
+
+#confetti {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:90;
+}
+
+.confetti {
+  position:absolute;
+  top:-20px;
+  width:8px;
+  height:13px;
+  border-radius:2px;
+  animation:fall linear forwards;
+}
+
+@keyframes fall {
+  from {
+    transform:
+      translateY(-10vh)
+      rotate(0deg);
+    opacity:1;
+  }
+
+  to {
+    transform:
+      translateY(110vh)
+      translateX(var(--x))
+      rotate(var(--rotate));
+    opacity:.15;
+  }
+}
+
+#birthdayBurst {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:80;
+}
+
+.burst-heart {
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:18px;
+  animation:heartBurst 2.2s ease-out forwards;
+}
+
+@keyframes heartBurst {
+  0% {
+    opacity:1;
+    transform:
+      translate(-50%,-50%)
+      scale(.4);
+  }
+
+  100% {
+    opacity:0;
+    transform:
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      rotate(var(--r))
+      scale(1.25);
+  }
+}
+
+@media (min-width:700px) {
+
+  .screen {
+    padding:110px 25px 90px;
+  }
+
+  .story-cards {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .story-card:last-child {
+    grid-column:1 / -1;
+  }
+
+  .wish {
+    min-height:150px;
+  }
+
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="background">
+
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+
+</div>
+
+
+<div class="app">
+
+
+<header class="topbar">
+
+  <div class="brand">
+    A little birthday story
+  </div>
+
+  <button
+    class="music"
+    id="musicButton"
+    type="button"
+  >
+
+    <span class="music-dot"></span>
+
+    <span id="musicText">
+      Music
+    </span>
+
+  </button>
+
+</header>
+
+
+<div class="progress">
+
+  <span class="progress-dot active"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+  <span class="progress-dot"></span>
+
+</div>
+
+
+<div id="screens">
+
+
+<!-- ============================================================
+     SCREEN 0 — LOCKED COUNTDOWN
+============================================================ -->
+
+<section
+  class="screen active"
+  id="screen0"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      Something special is coming
+    </div>
+
+
+    <div class="countdown-title">
+
+      The surprise<br>
+      begins in...
+
+    </div>
+
+
+    <p class="description">
+
+      A little birthday journey has been prepared
+      especially for you.
+
+    </p>
+
+
+    <div class="countdown">
+
+      <div class="count-box">
+
+        <span
+          class="count-number"
+          id="days"
+        >
+          00
+        </span>
+
+        <span class="count-label">
+          Days
+        </span>
+
+      </div>
+
+
+      <div class="count-box">
+
+        <span
+          class="count-number"
+          id="hours"
+        >
+          00
+        </span>
+
+        <span class="count-label">
+          Hours
+        </span>
+
+      </div>
+
+
+      <div class="count-box">
+
+        <span
+          class="count-number"
+          id="minutes"
+        >
+          00
+        </span>
+
+        <span class="count-label">
+          Minutes
+        </span>
+
+      </div>
+
+
+      <div class="count-box">
+
+        <span
+          class="count-number"
+          id="seconds"
+        >
+          00
+        </span>
+
+        <span class="count-label">
+          Seconds
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <p
+      class="count-note"
+      id="countNote"
+    >
+      Counting down to the special moment ✦
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 1 — BIRTHDAY REVEAL
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen1"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      The moment has arrived
+    </div>
+
+
+    <h1>
+
+      Happy Birthday
+
+      <br>
+
+      <span
+        class="gradient"
+        id="heroName"
+      >
+        Your Name
+      </span>
+
+    </h1>
+
+
+    <p
+      class="description"
+      id="heroText"
+    >
+      Today belongs to you. So take a breath,
+      smile and enjoy this little surprise.
+    </p>
+
+
+    <div class="hero-photo">
+
+      <img
+        src="photo1.jpg"
+        id="heroPhoto"
+        alt="Birthday person's photo"
+      >
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="btn primary"
+        onclick="nextScreen()"
+      >
+        Open Your Surprise →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 2 — STORY
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen2"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      Chapter One
+    </div>
+
+
+    <h2>
+      A little story about you
+    </h2>
+
+
+    <p
+      class="description"
+      id="storyIntro"
+    >
+      Some people make ordinary days
+      feel a little brighter.
+    </p>
+
+
+    <div class="story-cards">
+
+      <article class="card story-card">
+
+        <div class="number">
+          01
+        </div>
+
+        <h3>
+          Your smile
+        </h3>
+
+        <p id="story1">
+          Keep smiling, because your smile has
+          a way of making the people around you happy too.
+        </p>
+
+      </article>
+
+
+      <article class="card story-card">
+
+        <div class="number">
+          02
+        </div>
+
+        <h3>
+          The memories
+        </h3>
+
+        <p id="story2">
+          Every laugh, conversation and random
+          moment becomes part of a beautiful story.
+        </p>
+
+      </article>
+
+
+      <article class="card story-card">
+
+        <div class="number">
+          03
+        </div>
+
+        <h3>
+          Your next chapter
+        </h3>
+
+        <p id="story3">
+          May this new year bring exciting
+          opportunities and unforgettable memories.
+        </p>
+
+      </article>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="btn secondary"
+        onclick="previousScreen()"
+      >
+        ← Back
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="nextScreen()"
+      >
+        Next →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 3 — MEMORIES
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen3"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      Chapter Two
+    </div>
+
+
+    <h2>
+      Little pieces of happiness
+    </h2>
+
+
+    <p class="description">
+      A few moments worth keeping forever.
+    </p>
+
+
+    <div class="gallery">
+
+      <div class="photo tall">
+
+        <img
+          src="photo2.jpg"
+          alt="Birthday memory"
+          loading="lazy"
+        >
+
+      </div>
+
+
+      <div class="photo">
+
+        <img
+          src="photo3.jpg"
+          alt="Birthday memory"
+          loading="lazy"
+        >
+
+      </div>
+
+
+      <div class="photo">
+
+        <img
+          src="photo4.jpg"
+          alt="Birthday memory"
+          loading="lazy"
+        >
+
+      </div>
+
+
+      <div class="photo">
+
+        <img
+          src="photo5.jpg"
+          alt="Birthday memory"
+          loading="lazy"
+        >
+
+      </div>
+
+
+      <div class="photo">
+
+        <img
+          src="photo6.jpg"
+          alt="Birthday memory"
+          loading="lazy"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="btn secondary"
+        onclick="previousScreen()"
+      >
+        ← Back
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="nextScreen()"
+      >
+        Next →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 4 — LETTER
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen4"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      Chapter Three
+    </div>
+
+
+    <h2>
+      A message for you
+    </h2>
+
+
+    <div class="card letter">
+
+      <div class="letter-header">
+
+        <div class="letter-label">
+          A birthday letter
+        </div>
+
+        <div class="heart">
+          ♥
+        </div>
+
+      </div>
+
+
+      <p>
+
+        Dear
+
+        <strong id="letterName">
+          Your Name
+        </strong>,
+
+      </p>
+
+
+      <p id="letter1">
+
+        Today is not just another date
+        on the calendar. It is a reminder
+        that the world became a little more
+        special because you are in it.
+
+      </p>
+
+
+      <p id="letter2">
+
+        I hope you always have people who
+        celebrate your wins, support you through
+        difficult days and laugh with you over
+        the smallest things.
+
+      </p>
+
+
+      <p id="letter3">
+
+        May you get the courage to chase
+        what you want, the peace to appreciate
+        what you have and countless reasons
+        to smile.
+
+      </p>
+
+
+      <p id="letter4">
+
+        Happy Birthday.
+        Keep being exactly the wonderful
+        person you are.
+
+      </p>
+
+
+      <div class="signature">
+
+        —
+        <span id="senderName">
+          Your Friend
+        </span>
+        ✨
+
+      </div>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="btn secondary"
+        onclick="previousScreen()"
+      >
+        ← Back
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="nextScreen()"
+      >
+        Next →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 5 — WISHES
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen5"
+>
+
+  <div class="screen-inner">
+
+    <div class="kicker">
+      Chapter Four
+    </div>
+
+
+    <h2>
+      Four wishes for you
+    </h2>
+
+
+    <p class="description">
+      For the year that is waiting for you.
+    </p>
+
+
+    <div class="wishes">
+
+      <article class="card wish">
+
+        <div class="wish-icon">
+          🌟
+        </div>
+
+        <h4>
+          Dreams
+        </h4>
+
+        <p>
+          May your biggest dreams
+          come closer every day.
+        </p>
+
+      </article>
+
+
+      <article class="card wish">
+
+        <div class="wish-icon">
+          🕊️
+        </div>
+
+        <h4>
+          Peace
+        </h4>
+
+        <p>
+          May your heart stay calm
+          through every season.
+        </p>
+
+      </article>
+
+
+      <article class="card wish">
+
+        <div class="wish-icon">
+          🎉
+        </div>
+
+        <h4>
+          Happiness
+        </h4>
+
+        <p>
+          May your days be filled
+          with genuine smiles.
+        </p>
+
+      </article>
+
+
+      <article class="card wish">
+
+        <div class="wish-icon">
+          🚀
+        </div>
+
+        <h4>
+          Success
+        </h4>
+
+        <p>
+          May every new chapter
+          take you somewhere amazing.
+        </p>
+
+      </article>
+
+    </div>
+
+
+    <div class="buttons">
+
+      <button
+        class="btn secondary"
+        onclick="previousScreen()"
+      >
+        ← Back
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="nextScreen()"
+      >
+        One Last Thing →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ============================================================
+     SCREEN 6 — FINAL
+============================================================ -->
+
+<section
+  class="screen"
+  id="screen6"
+>
+
+  <div class="screen-inner">
+
+    <div class="final-card">
+
+      <div class="stars">
+        ✦ ✦ ✦
+      </div>
+
+
+      <div class="final-name">
+
+        HAPPY BIRTHDAY,
+
+        <br>
+
+        <span
+          class="gradient"
+          id="finalName"
+        >
+          Your Name
+        </span>
+
+        ✨
+
+      </div>
+
+
+      <p
+        class="final-message"
+        id="finalMessage"
+      >
+        Here is to another year of laughter,
+        growth, beautiful surprises and
+        unforgettable memories.
+      </p>
+
+
+      <div class="buttons">
+
+        <button
+          class="btn primary"
+          id="wishButton"
+        >
+          🎂 Make a Wish
+        </button>
+
+
+        <button
+          class="btn secondary"
+          onclick="restartExperience()"
+        >
+          ↺ Start Again
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</div>
+
+
+<div id="confetti"></div>
+
+<div id="birthdayBurst"></div>
+
+
+<audio
+  id="birthdayMusic"
+  preload="auto"
+>
+
+  <source
+    src="WhatsApp Audio 2026-10-08 at 2.06.56 PM.mp3"
+    type="audio/mpeg"
+  >
+
+</audio>
+
+</div>
+
+
+<script>
+
+/* ================================================================
+   ✨ ONLY EDIT THIS CONFIG
+================================================================ */
+
+const CONFIG = {
+
+  birthdayName:
+    "ALYAN",
+
+  senderName:
+    "HASNAT ALAM",
+
+
+  /*
+    IMPORTANT
+
+    Example:
+
+    2026-10-08T00:00:00
+
+    This means:
+    08 October 2026
+    12:00 AM
+
+    You can put the birthday date here.
+  */
+
+  birthdayDate:
+    "2026-10-08T00:00:00",
+
+
+  musicFile:
+    "WhatsApp Audio 2026-10-08 at 2.06.56 PM_cut_0-50-3-03.mp3",
+
+
+  photos: {
+
+    hero:
+      "829491203_1705543204622611_6695951862687764182_n.jpg",
+
+    memory1:
+      "833345138_928746186669071_7153515228054806353_n.jpg",
+
+    memory2:
+      "837395864_1681101226882904_592907479271347359_n.jpg",
+
+    memory3:
+      "830593539_1028409476884769_8202462714593045645_n.jpg",
+
+    memory4:
+      "833912509_1671057087951185_1583958606977723202_n.jpg",
+
+    memory5:
+      "829491203_1705543204622611_6695951862687764182_n.jpg",
+
+  },
+
+
+  heroText:
+    "Today belongs to you. So take a breath, smile and enjoy this little surprise.",
+
+
+  storyIntro:
+    "Some people make ordinary days feel a little brighter. Today is about celebrating one of them.",
+
+
+  story1:
+    "Keep smiling, because your smile has a way of making the people around you happy too.",
+
+
+  story2:
+    "Every laugh, conversation and random moment becomes part of a beautiful story.",
+
+
+  story3:
+    "May this new year bring exciting opportunities, peaceful days and unforgettable memories.",
+
+
+  letter1:
+    "Today is not just another date on the calendar. It is a reminder that the world became a little more special because you are in it.",
+
+
+  letter2:
+    "I hope you always have people who celebrate your wins, support you through difficult days and laugh with you over the smallest things.",
+
+
+  letter3:
+    "May you get the courage to chase what you want, the peace to appreciate what you have and countless reasons to smile.",
+
+
+  letter4:
+    "Happy Birthday. Keep being exactly the wonderful person you are.",
+
+
+  finalMessage:
+    "Here is to another year of laughter, growth, beautiful surprises and unforgettable memories."
+
+};
+
+
+/* ================================================================
+   ELEMENTS
+================================================================ */
+
+const screens =
+  document.querySelectorAll(".screen");
+
+const progressDots =
+  document.querySelectorAll(".progress-dot");
+
+let currentScreen = 0;
+
+
+/*
+  VERY IMPORTANT:
+
+  false = countdown is still active
+  true = birthday has arrived
+
+  While false, NOTHING is allowed to
+  move to another screen.
+*/
+
+let birthdayUnlocked = false;
+
+
+/* ================================================================
+   CONTENT
+================================================================ */
+
+document.title =
+  `Happy Birthday ${CONFIG.birthdayName} ✨`;
+
+
+document.querySelector("#heroName")
+  .textContent =
+  CONFIG.birthdayName;
+
+
+document.querySelector("#finalName")
+  .textContent =
+  CONFIG.birthdayName;
+
+
+document.querySelector("#letterName")
+  .textContent =
+  CONFIG.birthdayName;
+
+
+document.querySelector("#senderName")
+  .textContent =
+  CONFIG.senderName;
+
+
+document.querySelector("#heroText")
+  .textContent =
+  CONFIG.heroText;
+
+
+document.querySelector("#storyIntro")
+  .textContent =
+  CONFIG.storyIntro;
+
+
+document.querySelector("#story1")
+  .textContent =
+  CONFIG.story1;
+
+
+document.querySelector("#story2")
+  .textContent =
+  CONFIG.story2;
+
+
+document.querySelector("#story3")
+  .textContent =
+  CONFIG.story3;
+
+
+document.querySelector("#letter1")
+  .textContent =
+  CONFIG.letter1;
+
+
+document.querySelector("#letter2")
+  .textContent =
+  CONFIG.letter2;
+
+
+document.querySelector("#letter3")
+  .textContent =
+  CONFIG.letter3;
+
+
+document.querySelector("#letter4")
+  .textContent =
+  CONFIG.letter4;
+
+
+document.querySelector("#finalMessage")
+  .textContent =
+  CONFIG.finalMessage;
+
+
+/* ================================================================
+   PHOTOS
+================================================================ */
+
+document.querySelector("#heroPhoto")
+  .src =
+  CONFIG.photos.hero;
+
+
+const galleryImages =
+  document.querySelectorAll(
+    "#screen3 .photo img"
+  );
+
+
+const galleryPhotos = [
+
+  CONFIG.photos.memory1,
+  CONFIG.photos.memory2,
+  CONFIG.photos.memory3,
+  CONFIG.photos.memory4,
+  CONFIG.photos.memory5
+
+];
+
+
+galleryImages.forEach(
+  (img,index) => {
+
+    if (
+      galleryPhotos[index]
+    ) {
+
+      img.src =
+        galleryPhotos[index];
+
+    }
+
+  }
+);
+
+
+/* ================================================================
+   SCREEN CONTROL
+================================================================ */
+
+function updateScreen() {
+
+  /*
+    Absolute protection:
+
+    If birthday has NOT arrived,
+    always force Screen 0.
+  */
+
+  if (!birthdayUnlocked) {
+
+    currentScreen = 0;
+
+  }
+
+
+  screens.forEach(
+    (screen,index) => {
+
+      screen.classList.toggle(
+        "active",
+        index === currentScreen
+      );
+
+    }
+  );
+
+
+  progressDots.forEach(
+    (dot,index) => {
+
+      dot.classList.toggle(
+        "active",
+        index === currentScreen
+      );
+
+    }
+  );
+
+}
+
+
+/* ================================================================
+   NEXT SCREEN
+================================================================ */
+
+function nextScreen() {
+
+  /*
+    COUNTDOWN LOCK
+
+    Nothing happens while countdown
+    still has time remaining.
+  */
+
+  if (!birthdayUnlocked) {
+
+    currentScreen = 0;
+
+    updateScreen();
+
+    return;
+
+  }
+
+
+  if (
+    currentScreen <
+    screens.length - 1
+  ) {
+
+    currentScreen++;
+
+    updateScreen();
+
+  }
+
+}
+
+
+/* ================================================================
+   PREVIOUS SCREEN
+================================================================ */
+
+function previousScreen() {
+
+  /*
+    Before birthday:
+    BACK ALSO DOES NOTHING.
+  */
+
+  if (!birthdayUnlocked) {
+
+    currentScreen = 0;
+
+    updateScreen();
+
+    return;
+
+  }
+
+
+  if (
+    currentScreen > 0
+  ) {
+
+    currentScreen--;
+
+    updateScreen();
+
+  }
+
+}
+
+
+/* ================================================================
+   RESTART
+================================================================ */
+
+function restartExperience() {
+
+  /*
+    Even after the birthday, restarting
+    should ONLY restart the experience.
+
+    It must NOT restart the countdown.
+  */
+
+  if (!birthdayUnlocked) {
+
+    currentScreen = 0;
+
+  }
+
+  else {
+
+    currentScreen = 1;
+
+  }
+
+  updateScreen();
+
+}
+
+
+/* ================================================================
+   COUNTDOWN
+================================================================ */
+
+const targetDate =
+  new Date(
+    CONFIG.birthdayDate
+  );
+
+
+function pad(number) {
+
+  return String(number)
+    .padStart(2,"0");
+
+}
+
+
+function updateCountdown() {
+
+  const now =
+    new Date();
+
+
+  const difference =
+    targetDate - now;
+
+
+  /*
+    ================================================================
+    STILL WAITING
+    ================================================================
+  */
+
+  if (
+    difference > 0
+  ) {
+
+    /*
+      LOCK EVERYTHING
+    */
+
+    birthdayUnlocked =
+      false;
+
+
+    currentScreen =
+      0;
+
+
+    let remaining =
+      difference;
+
+
+    const days =
+      Math.floor(
+        remaining /
+        (1000 * 60 * 60 * 24)
+      );
+
+
+    remaining -=
+      days *
+      (1000 * 60 * 60 * 24);
+
+
+    const hours =
+      Math.floor(
+        remaining /
+        (1000 * 60 * 60)
+      );
+
+
+    remaining -=
+      hours *
+      (1000 * 60 * 60);
+
+
+    const minutes =
+      Math.floor(
+        remaining /
+        (1000 * 60)
+      );
+
+
+    remaining -=
+      minutes *
+      (1000 * 60);
+
+
+    const seconds =
+      Math.floor(
+        remaining /
+        1000
+      );
+
+
+    document.querySelector("#days")
+      .textContent =
+      pad(days);
+
+
+    document.querySelector("#hours")
+      .textContent =
+      pad(hours);
+
+
+    document.querySelector("#minutes")
+      .textContent =
+      pad(minutes);
+
+
+    document.querySelector("#seconds")
+      .textContent =
+      pad(seconds);
+
+
+    document.querySelector("#countNote")
+      .textContent =
+      "Counting down to the special moment ✦";
+
+
+    updateScreen();
+
+
+    return;
+
+  }
+
+
+  /*
+    ================================================================
+    BIRTHDAY HAS ARRIVED
+    ================================================================
+  */
+
+  if (
+    !birthdayUnlocked
+  ) {
+
+    birthdayUnlocked =
+      true;
+
+
+    document.querySelector("#days")
+      .textContent =
+      "00";
+
+
+    document.querySelector("#hours")
+      .textContent =
+      "00";
+
+
+    document.querySelector("#minutes")
+      .textContent =
+      "00";
+
+
+    document.querySelector("#seconds")
+      .textContent =
+      "00";
+
+
+    document.querySelector("#countNote")
+      .textContent =
+      "It's birthday time! 🎂✨";
+
+
+    /*
+      NOW AND ONLY NOW:
+      move from countdown to birthday screen.
+    */
+
+    currentScreen =
+      1;
+
+
+    updateScreen();
+
+
+    birthdayBurst();
+
+    launchConfetti(130);
+
+    tryStartMusic();
+
+  }
+
+}
+
+
+/*
+  First countdown check immediately.
+*/
+
+updateCountdown();
+
+
+/*
+  Update every second.
+*/
+
+setInterval(
+  updateCountdown,
+  1000
+);
+
+
+/* ================================================================
+   BLOCK KEYBOARD NAVIGATION DURING COUNTDOWN
+================================================================ */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (!birthdayUnlocked) {
+
+      /*
+        Prevent:
+        ArrowRight
+        ArrowLeft
+        Space
+        Enter
+        etc.
+      */
+
+      event.preventDefault();
+
+      currentScreen =
+        0;
+
+      updateScreen();
+
+      return;
+
+    }
+
+
+    if (
+      event.key === "ArrowRight" ||
+      event.key === " "
+    ) {
+
+      if (
+        event.target.tagName !==
+        "INPUT"
+      ) {
+
+        event.preventDefault();
+
+        nextScreen();
+
+      }
+
+    }
+
+
+    if (
+      event.key === "ArrowLeft"
+    ) {
+
+      previousScreen();
+
+    }
+
+  }
+);
+
+
+/* ================================================================
+   BLOCK BACK BUTTON / HISTORY ATTEMPTS
+================================================================ */
+
+/*
+  Nobody can jump to another page state
+  while countdown is locked.
+*/
+
+history.pushState(
+  null,
+  "",
+  location.href
+);
+
+
+window.addEventListener(
+  "popstate",
+  () => {
+
+    if (!birthdayUnlocked) {
+
+      history.pushState(
+        null,
+        "",
+        location.href
+      );
+
+      currentScreen =
+        0;
+
+      updateScreen();
+
+    }
+
+  }
+);
+
+
+/* ================================================================
+   MUSIC
+================================================================ */
+
+const music =
+  document.querySelector(
+    "#birthdayMusic"
+  );
+
+
+const musicButton =
+  document.querySelector(
+    "#musicButton"
+  );
+
+
+const musicText =
+  document.querySelector(
+    "#musicText"
+  );
+
+
+const musicSource =
+  music.querySelector(
+    "source"
+  );
+
+
+musicSource.src =
+  CONFIG.musicFile;
+
+
+music.load();
+
+
+let musicPlaying =
+  false;
+
+
+function updateMusicUI() {
+
+  musicButton.classList.toggle(
+    "playing",
+    musicPlaying
+  );
+
+
+  musicText.textContent =
+    musicPlaying
+      ? "Pause"
+      : "Music";
+
+}
+
+
+async function tryStartMusic() {
+
+  if (
+    !music.paused
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    await music.play();
+
+    musicPlaying =
+      true;
+
+    updateMusicUI();
+
+  }
+
+  catch (_) {
+
+    /*
+      Browser autoplay protection.
+      User can tap Music.
+    */
+
+  }
+
+}
+
+
+musicButton
+  .addEventListener(
+    "click",
+
+    async () => {
+
+      try {
+
+        if (
+          music.paused
+        ) {
+
+          await music.play();
+
+          musicPlaying =
+            true;
+
+        }
+
+        else {
+
+          music.pause();
+
+          musicPlaying =
+            false;
+
+        }
+
+        updateMusicUI();
+
+      }
+
+      catch (_) {
+
+        musicText.textContent =
+          "Tap again";
+
+      }
+
+    }
+  );
+
+
+/*
+  Try music after interaction only
+  after birthday has unlocked.
+*/
+
+document.addEventListener(
+  "click",
+
+  () => {
+
+    if (
+      birthdayUnlocked &&
+      !musicPlaying
+    ) {
+
+      tryStartMusic();
+
+    }
+
+  },
+
+  { once:true }
+
+);
+
+
+/* ================================================================
+   CONFETTI
+================================================================ */
+
+function launchConfetti(
+  amount = 100
+) {
+
+  const container =
+    document.querySelector(
+      "#confetti"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  const colors = [
+
+    "#ff8eab",
+    "#ffd166",
+    "#a993ff",
+    "#ffffff",
+    "#75dfd0"
+
+  ];
+
+
+  for (
+    let i = 0;
+    i < amount;
+    i++
+  ) {
+
+    const piece =
+      document.createElement(
+        "span"
+      );
+
+
+    piece.className =
+      "confetti";
+
+
+    piece.style.left =
+      `${Math.random() * 100}%`;
+
+
+    piece.style.background =
+      colors[
+        Math.floor(
+          Math.random() *
+          colors.length
+        )
+      ];
+
+
+    piece.style.animationDuration =
+      `${2.5 + Math.random() * 3}s`;
+
+
+    piece.style.animationDelay =
+      `${Math.random() * .5}s`;
+
+
+    piece.style.setProperty(
+      "--x",
+      `${(Math.random() - .5) * 260}px`
+    );
+
+
+    piece.style.setProperty(
+      "--rotate",
+      `${(Math.random() - .5) * 1000}deg`
+    );
+
+
+    if (
+      Math.random() > .65
+    ) {
+
+      piece.style.borderRadius =
+        "50%";
+
+    }
+
+
+    container.appendChild(
+      piece
+    );
+
+  }
+
+
+  setTimeout(
+    () => {
+
+      container.innerHTML =
+        "";
+
+    },
+
+    6500
+  );
+
+}
+
+
+/* ================================================================
+   BIRTHDAY BURST
+================================================================ */
+
+function birthdayBurst() {
+
+  const container =
+    document.querySelector(
+      "#birthdayBurst"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  const symbols = [
+    "♥",
+    "♡",
+    "✦",
+    "✨",
+    "♥"
+  ];
+
+
+  for (
+    let i = 0;
+    i < 35;
+    i++
+  ) {
+
+    const element =
+      document.createElement(
+        "span"
+      );
+
+
+    element.className =
+      "burst-heart";
+
+
+    element.textContent =
+      symbols[
+        Math.floor(
+          Math.random() *
+          symbols.length
+        )
+      ];
+
+
+    const angle =
+      Math.random() *
+      Math.PI *
+      2;
+
+
+    const distance =
+      120 +
+      Math.random() *
+      330;
+
+
+    const x =
+      Math.cos(angle) *
+      distance;
+
+
+    const y =
+      Math.sin(angle) *
+      distance;
+
+
+    const rotation =
+      (Math.random() - .5) *
+      160;
+
+
+    element.style.setProperty(
+      "--x",
+      `${x}px`
+    );
+
+
+    element.style.setProperty(
+      "--y",
+      `${y}px`
+    );
+
+
+    element.style.setProperty(
+      "--r",
+      `${rotation}deg`
+    );
+
+
+    container.appendChild(
+      element
+    );
+
+  }
+
+
+  setTimeout(
+    () => {
+
+      container.innerHTML =
+        "";
+
+    },
+
+    2500
+  );
+
+}
+
+
+/* ================================================================
+   FINAL WISH
+================================================================ */
+
+document
+  .querySelector("#wishButton")
+  .addEventListener(
+    "click",
+
+    () => {
+
+      if (!birthdayUnlocked) {
+
+        return;
+
+      }
+
+
+      launchConfetti(
+        170
+      );
+
+
+      birthdayBurst();
+
+
+      tryStartMusic();
+
+    }
+
+  );
+
+
+/* ================================================================
+   MISSING IMAGE FALLBACK
+================================================================ */
+
+document
+  .querySelectorAll("img")
+  .forEach(
+    img => {
+
+      img.addEventListener(
+        "error",
+
+        () => {
+
+          img.style.objectFit =
+            "contain";
+
+          img.style.padding =
+            "20px";
+
+          img.style.opacity =
+            ".45";
+
+        }
+
+      );
+
+    }
+  );
+
+
+/* ================================================================
+   FINAL INITIALIZATION
+================================================================ */
+
+birthdayUnlocked =
+  targetDate <= new Date();
+
+
+if (
+  birthdayUnlocked
+) {
+
+  currentScreen =
+    1;
+
+}
+else {
+
+  currentScreen =
+    0;
+
+}
+
+
+updateScreen();
+
+</script>
+
+</body>
+</html>
+```
